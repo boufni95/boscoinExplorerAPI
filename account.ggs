@@ -1,0 +1,19 @@
+{
+     "_links": {
+         "operations": {
+             "href": "/api/v1/accounts/GA4GYZGF4UPSDVY2FDFL7WA42IGEYXIPXLDLZ4QAFNPALRTTXAFULMIJ/operations{?cursor,limit,order}",
+             "templated": true
+         },
+         "self": {
+             "href": "/api/v1/accounts/GA4GYZGF4UPSDVY2FDFL7WA42IGEYXIPXLDLZ4QAFNPALRTTXAFULMIJ"
+         },
+         "transactions": {
+             "href": "/api/v1/accounts/GA4GYZGF4UPSDVY2FDFL7WA42IGEYXIPXLDLZ4QAFNPALRTTXAFULMIJ/transactions{?cursor,limit,order}",
+             "templated": true
+         }
+     },
+     "address": "GA4GYZGF4UPSDVY2FDFL7WA42IGEYXIPXLDLZ4QAFNPALRTTXAFULMIJ",
+     "balance": "73006784860",
+     "linked": "",
+     "sequence_id": 3
+ }
