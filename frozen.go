@@ -1,4 +1,4 @@
-package main
+package boscoin
 
 import (
 	"encoding/json"
@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 type FrozenState string
@@ -91,8 +89,8 @@ func CountFreeze(i map[string]interface{}) (*big.Int, int) {
 		}
 	}
 	fmt.Println("-->")
-	spew.Dump(totHere)
-	spew.Dump(numbrerOf)
+	//spew.Dump(totHere)
+	//spew.Dump(numbrerOf)
 	return totHere, numbrerOf
 }
 func CountBosFreeze(i map[string]interface{}) (FrozenState, int64) {
@@ -121,4 +119,49 @@ func CountBosFreeze(i map[string]interface{}) (FrozenState, int64) {
 			return frozen, 0
 		}
 	}
+}
+func RetriveAndCalc(data map[string]interface{}) map[string]interface{} {
+	/*data := map[string]interface{}{
+		"total":  0,
+		"txAddr": "",
+		"txNum":  0,
+	}*/
+	tmp := big.NewInt(0)
+	var f map[string]interface{}
+	var tot *big.Int
+	ten6 := big.NewInt(1000000)
+	if data["txAddr"] == "" {
+		tot = big.NewInt(0)
+		f = GetFrozenInter("/api/v1/frozen-accounts")
+	} else {
+		n := big.NewInt(data["total"].(int64))
+		n.Mul(n, ten6)
+		tot = n
+		f = GetFrozenInter(data["txAddr"].(string))
+	}
+	/*var out bytes.Buffer
+	json.Indent(&out, b, " ", "    ")
+	SaveToFile("frozen.json", out.Bytes())*/
+	var numberOf int
+	var hrefNext string
+	//for tmp.Sign() >= 0 {
+	for i := 0; i < 5; i++ {
+		hrefNext = GetNext(f)
+		//hrefPrev := GetPrev(f)
+		f = GetFrozenInter(hrefNext)
+		tmp, numberOf = CountFreeze(f)
+
+		tot.Add(tot, tmp)
+	}
+	fmt.Println("tot:", tot)
+	fmt.Println("num:", numberOf)
+	fmt.Println("ref:", hrefNext)
+	totExp := tot.Div(tot, ten6)
+	intExp := totExp.Int64()
+	ret := map[string]interface{}{
+		"total":  intExp,
+		"txAddr": hrefNext,
+		"txNum":  numberOf,
+	}
+	return ret
 }

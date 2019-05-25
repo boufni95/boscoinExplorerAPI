@@ -1,4 +1,4 @@
-package main
+package boscoin
 
 import (
 	"io/ioutil"

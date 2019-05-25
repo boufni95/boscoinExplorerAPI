@@ -1,0 +1,1 @@
+# API to read the freezed transactions of boscoin and calculate the sum
